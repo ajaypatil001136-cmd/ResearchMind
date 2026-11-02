@@ -1,0 +1,38 @@
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Environment variables and secrets
+.env
+.env.*
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Uploaded documents and local data
+uploads/
+data/
+*.pdf
+
+# Evaluation outputs
+retrieval_evaluation_results.csv
+answer_evaluation_results.csv
+grounding_evaluation_results.csv
+
+# Model and application cache
+.cache/
+cache/
+models/
+
+# IDE and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
