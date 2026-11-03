@@ -1,54 +1,56 @@
 # 🧠 ResearchMind — Local AI Research Assistant
 
-**ResearchMind is a local, PDF-based Retrieval-Augmented Generation (RAG) application that lets you ask natural-language questions about research papers and inspect the passages used to answer them.**
+ResearchMind is a local Retrieval-Augmented Generation (RAG) application that allows users to upload PDF documents, ask questions in natural language, and receive answers grounded in retrieved document content.
+
+It uses local embeddings, FAISS vector search, and Ollama to generate responses without requiring a paid AI API.
 
 ## ✨ Features
 
-- Upload one or multiple PDF research papers.
-- Extract page-level text using PyMuPDF.
-- Split text into overlapping chunks.
+- Upload and process PDF documents.
+- Extract text with PyMuPDF.
+- Split documents into overlapping text chunks.
 - Generate semantic embeddings using FastEmbed.
-- Search relevant passages using FAISS.
+- Retrieve relevant passages using FAISS.
 - Generate answers using a locally running Ollama model.
-- Display source filenames, page numbers, retrieved passages and similarity scores.
-- Interactive Streamlit dashboard.
+- Display source document names, page references, and retrieved evidence.
+- Interactive Streamlit interface.
 
-## 🖥️ Application Screenshots
+## 📸 Application Screenshots
 
 ### Dashboard
 ![ResearchMind Dashboard](screenshots/dashboard.png)
 
-### Uploaded Documents
+### Document Upload
 ![Document Upload](screenshots/document-upload.png)
 
-### RAG Answer and Source Evidence
+### RAG Question Answering
 ![RAG Answer](screenshots/rag-answer.png)
 
-## 🧰 Technology Stack
+## 🛠️ Tech Stack
 
-| Component | Technology |
+| Technology | Purpose |
 |---|---|
-| Language | Python |
-| Interface | Streamlit |
-| PDF Processing | PyMuPDF |
-| Embeddings | FastEmbed |
-| Embedding Model | all-MiniLM-L6-v2 |
-| Vector Search | FAISS |
-| Local LLM Runtime | Ollama |
-| Language Model | llama3.2:3b |
+| Python | Core programming language |
+| Streamlit | User interface |
+| PyMuPDF | PDF text extraction |
+| FastEmbed | Text embeddings |
+| ONNX Runtime | Embedding inference |
+| FAISS | Vector similarity search |
+| Ollama | Local LLM inference |
+| Llama 3.2 3B | Answer generation |
 
 ## 🏗️ Architecture
 
 ```text
 PDF Upload
     ↓
-PDF Text Extraction (PyMuPDF)
+PDF Text Extraction
     ↓
 Text Chunking
     ↓
-Embedding Generation (FastEmbed)
+Embedding Generation
     ↓
-Vector Indexing (FAISS)
+FAISS Vector Index
     ↓
 User Question
     ↓
@@ -56,17 +58,18 @@ Query Embedding
     ↓
 Similarity Search
     ↓
-Relevant Context Retrieval
+Retrieved Context
     ↓
-Local LLM (Ollama)
+Ollama LLM
     ↓
-Generated Answer + Source Evidence
+Answer + Source Evidence
 ```
 
-## 📁 Project Structure
+## 📂 Project Structure
 
 ```text
 ResearchMind/
+│
 ├── app.py
 ├── chunker.py
 ├── embedder.py
@@ -74,6 +77,7 @@ ResearchMind/
 ├── requirements.txt
 ├── README.md
 ├── .gitignore
+│
 └── screenshots/
     ├── dashboard.png
     ├── document-upload.png
@@ -91,18 +95,25 @@ cd ResearchMind
 
 ### 2. Create a virtual environment
 
-```powershell
+```bash
 py -3.12 -m venv .venv
+```
+
+### 3. Activate the environment
+
+**Windows PowerShell:**
+
+```powershell
 .venv\Scripts\Activate.ps1
 ```
 
-### 3. Install dependencies
+### 4. Install dependencies
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-### 4. Install Ollama
+### 5. Install and start Ollama
 
 Install Ollama from https://ollama.com/
 
@@ -112,43 +123,51 @@ Download the model:
 ollama pull llama3.2:3b
 ```
 
-### 5. Run the application
+Ensure Ollama is running before launching the application.
+
+### 6. Run ResearchMind
 
 ```bash
 streamlit run app.py
 ```
 
-Open the local URL displayed in your terminal, usually:
+Open the local Streamlit address displayed in your terminal, usually:
 
+```text
 http://localhost:8501
+```
 
-## 🔍 How It Works
+## 🧪 Testing
 
-ResearchMind follows a Retrieval-Augmented Generation workflow:
+The application has been manually tested with a sample PDF. The tested workflow includes:
 
-1. Extracts text from uploaded PDFs.
-2. Converts text into overlapping chunks.
-3. Generates vector embeddings.
-4. Retrieves relevant passages using FAISS similarity search.
-5. Supplies retrieved context to a local LLM.
-6. Displays the generated answer with source evidence.
+- PDF upload and text extraction.
+- Text chunk creation.
+- Embedding generation.
+- FAISS similarity retrieval.
+- Local LLM answer generation.
+- Display of retrieved source evidence.
+
+Formal retrieval-quality benchmarks and quantitative evaluation metrics have not yet been conducted.
 
 ## ⚠️ Current Limitations
 
-- Answer quality depends on extraction, retrieval and model performance.
-- Scanned PDFs may require OCR support.
-- Similarity scores are not guarantees of answer correctness.
-- Persistent vector storage is not implemented.
-- Formal retrieval accuracy and latency benchmarks are not yet available.
+- Scanned PDFs may require OCR.
+- Retrieval similarity scores are not calibrated confidence scores.
+- Formal RAG evaluation is not yet implemented.
+- The application currently relies on a locally running Ollama installation.
 
 ## 🚀 Future Improvements
 
 - OCR support for scanned documents.
-- Improved retrieval and reranking.
-- Formal RAG evaluation.
+- Retrieval evaluation and benchmarking.
+- Reranking for improved retrieval relevance.
 - Persistent vector storage.
 - Automated testing and performance monitoring.
 
 ## 👨‍💻 About
 
-ResearchMind is an AI/ML engineering portfolio project exploring Retrieval-Augmented Generation, semantic search, vector databases, PDF processing and local LLM integration.
+ResearchMind is a portfolio project built to explore Retrieval-Augmented Generation, semantic search, vector databases, PDF processing, and local Large Language Models.
+
+**GitHub Repository:**  
+https://github.com/ajaypatil001136-cmd/ResearchMind
