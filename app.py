@@ -1,6 +1,6 @@
 
 import streamlit as st
-import fitz
+import pymupdf as fitz
 import hashlib
 import ollama
 import numpy as np

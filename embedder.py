@@ -1,48 +1,41 @@
 
 import streamlit as st
-from sentence_transformers import SentenceTransformer
+import numpy as np
+from fastembed import TextEmbedding
 
 
 @st.cache_resource
 def get_embedding_model():
-    """
-    Load the embedding model once and reuse it.
-    """
-    return SentenceTransformer("all-MiniLM-L6-v2")
+    """Load the embedding model once and reuse it."""
+    return TextEmbedding(
+        model_name="sentence-transformers/all-MiniLM-L6-v2"
+    )
+
+
+def normalize_embeddings(embeddings):
+    """Normalize vectors for cosine similarity."""
+    embeddings = np.asarray(embeddings, dtype=np.float32)
+    norms = np.linalg.norm(embeddings, axis=1, keepdims=True)
+    return embeddings / np.maximum(norms, 1e-12)
 
 
 def generate_embeddings(chunks):
-    """
-    Convert document chunks into numerical vectors.
-    """
-
+    """Convert document chunks into numerical vectors."""
     if not chunks:
-        return []
+        return np.empty((0, 384), dtype=np.float32)
 
     model = get_embedding_model()
-
     texts = [chunk["text"] for chunk in chunks]
 
-    embeddings = model.encode(
-        texts,
-        normalize_embeddings=True,
-        convert_to_numpy=True
-    )
+    embeddings = list(model.embed(texts))
 
-    return embeddings
+    return normalize_embeddings(embeddings)
 
 
 def generate_query_embedding(question):
-    """
-    Convert a user's question into an embedding.
-    """
-
+    """Convert a user's question into an embedding."""
     model = get_embedding_model()
 
-    embedding = model.encode(
-        [question],
-        normalize_embeddings=True,
-        convert_to_numpy=True
-    )
+    embeddings = list(model.embed([question]))
 
-    return embedding
+    return normalize_embeddings(embeddings)
